@@ -1,7 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
+import '../../../main.dart';
+
+class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Dispose controllers when the widget is removed from the tree
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +77,9 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 18),
 
               // Email text field
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
                   labelText: "Email",
                   hintText: 'Enter Email',
                   border: UnderlineInputBorder(), // Only bottom line
@@ -70,8 +92,9 @@ class SignUpPage extends StatelessWidget {
               ),
               const SizedBox(height: 18),
               // Mobile Number text field
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _mobileController,
+                decoration: const InputDecoration(
                   labelText: "Mobile Number",
                   hintText: 'Mobile Number',
                   border: UnderlineInputBorder(),
@@ -85,8 +108,9 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 18),
 
               // Password text field
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
                   labelText: "Password",
                   hintText: 'Password',
                   border: UnderlineInputBorder(),
@@ -100,8 +124,9 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 18),
 
               // Confirm Password text field
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
                   labelText: 'Confirm Password',
                   hintText: 'Confirm Password',
                   border: UnderlineInputBorder(), // Only bottom line
@@ -117,7 +142,19 @@ class SignUpPage extends StatelessWidget {
               // Register button
               ElevatedButton(
                 onPressed: () {
-                  // Add registration logic here
+                  FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text)
+                      .then((value) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const MyHomePage(title: 'UpNext'),
+                      ),
+                    );
+                  }).onError((error, stackTrace) {
+                    print(error.toString());
+                  });
                 },
                 child: const Text('Register'),
                 style: ElevatedButton.styleFrom(
