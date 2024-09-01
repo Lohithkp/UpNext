@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "436978806253",
+    "project_id": "upnext-43716",
+    "storage_bucket": "upnext-43716.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436978806253:android:c7a1d71eadded4261d8be4",
+        "android_client_info": {
+          "package_name": "com.example.up_next"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNfQKtQcVqHOJIvPf3x06pQ2ymkqxJJbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
