@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:up_next/src/constants/color_constants.dart';
-import 'package:up_next/src/screens/splash_screen/splash_screen.dart';
+import 'package:up_next/src/feature/screens/splash_screen/splash_screen.dart';
+import 'package:up_next/src/setup_service_locator/service_locator.dart';
 
 void main() async {
+  setupServiceLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());

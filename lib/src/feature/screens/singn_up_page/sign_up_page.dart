@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:up_next/src/model/user_model.dart';
 
-import '../../../main.dart';
+import '../../../../main.dart';
+import '../../../repository/user_repository.dart';
+import '../../../setup_service_locator/service_locator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
 
@@ -67,8 +71,9 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 32),
 
               // Name text field
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _nameController,
+                decoration: const InputDecoration(
                   labelText: "Full Name",
                   hintText: 'Enter Full Name',
                   border: UnderlineInputBorder(),
@@ -147,20 +152,29 @@ class _SignUpPageState extends State<SignUpPage> {
 
               // Register button
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  Users user = Users(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      mobileNumber: _mobileController.text,
+                      fullName: _nameController.text);
+                  bool isAdded = await sl<UserRepository>().addUser(user);
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(
                           email: _emailController.text,
                           password: _passwordController.text)
-                      .then((value) {
+                      .then((value) {})
+                      .onError((error, stackTrace) {
+                    print(error.toString());
+                  });
+
+                  if (isAdded) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => const MyHomePage(title: 'UpNext'),
                       ),
                     );
-                  }).onError((error, stackTrace) {
-                    print(error.toString());
-                  });
+                  }
                 },
                 child: const Text('Register'),
                 style: ElevatedButton.styleFrom(
