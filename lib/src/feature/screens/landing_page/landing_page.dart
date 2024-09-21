@@ -47,12 +47,13 @@ class _LandingPageState extends State<LandingPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: Drawer(),
       appBar: AppBar(
         backgroundColor: appColors[cardIndex],
         title: const Text(
           "Up Next",
-          style: TextStyle(fontSize: 16.0),
+          style: TextStyle(fontSize: 20.0),
         ),
         centerTitle: true,
         actions: const <Widget>[

@@ -33,7 +33,7 @@ class _BuildCategoryCardCardState extends State<BuildCategoryCard> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
-        color: Colors.white.withOpacity(.8),
+        color: Colors.white.withOpacity(1.0),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: SizedBox(
@@ -82,7 +82,8 @@ class _BuildCategoryCardCardState extends State<BuildCategoryCard> {
                           horizontal: 8.0, vertical: 4.0),
                       child: Text(
                         widget.cardsList[widget.position].cardTitle,
-                        style: TextStyle(fontSize: 28.0),
+                        style: TextStyle(
+                            fontSize: 28.0, fontWeight: FontWeight.w400),
                       ),
                     ),
                     Padding(

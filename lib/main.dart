@@ -68,10 +68,10 @@ class MyApp extends StatelessWidget {
       title: 'UpNext',
       theme: ThemeData(
         primaryColor:
-            ColorsConstant.customPrimaryColor, // Set the primary color
+            AppColorsConstant.customPrimaryColor, // Set the primary color
         // You can also set other colors like accentColor, backgroundColor, etc.
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: ColorsConstant.customPrimaryColor,
+          primary: AppColorsConstant.customPrimaryColor,
           secondary: Colors.amber, // Example for secondary color
         ),
       ),

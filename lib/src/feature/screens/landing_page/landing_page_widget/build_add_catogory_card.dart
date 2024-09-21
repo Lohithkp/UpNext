@@ -4,6 +4,7 @@ import 'package:up_next/src/widget/type_writer_widget.dart';
 
 import '../../../../model/card_Item_model.dart';
 import '../../../../util/animated_util.dart';
+import '../../add_category_page/add_category_page.dart';
 
 class AddCategoryCard extends StatefulWidget {
   final int position;
@@ -30,6 +31,7 @@ class _AddCategoryCardState extends State<AddCategoryCard> {
 
   @override
   Widget build(BuildContext context) {
+    print("printing buil;d");
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
@@ -53,7 +55,11 @@ class _AddCategoryCardState extends State<AddCategoryCard> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Center(
+              const SizedBox(
+                height: 110,
+              ),
+              Align(
+                alignment: Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 10.0),
@@ -76,26 +82,33 @@ class _AddCategoryCardState extends State<AddCategoryCard> {
                       curve: Curves.easeInOut,
                     ),
                   ),
-                  child: Center(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: appColors[widget.position],
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 28.0,
-                            vertical: 14.0), // Increased padding
-                        textStyle:
-                            TextStyle(fontSize: 20.0), // Larger text size
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(30.0), // Curved corners
+                  child: Hero(
+                    tag: "addCategoryHero",
+                    child: Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: appColors[widget.position],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 28.0,
+                              vertical: 14.0), // Increased padding
+                          textStyle:
+                              TextStyle(fontSize: 20.0), // Larger text size
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(30.0), // Curved corners
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        print("Button Pressed!");
-                      },
-                      child: Text(
-                        "Add Category",
-                        style: TextStyle(color: Colors.white),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const AddCategoryPage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Add Category",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
