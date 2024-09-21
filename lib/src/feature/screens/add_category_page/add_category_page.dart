@@ -28,56 +28,59 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: ClipRRect(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(400)),
-        ),
-        centerTitle: true,
-        elevation: 15,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(width: 1),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(300),
-            bottomRight: Radius.circular(0),
+    return Hero(
+      tag: "addCategoryHero",
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 15,
+          shape: const RoundedRectangleBorder(
+            side: BorderSide(width: 1),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(300),
+              bottomRight: Radius.circular(0),
+            ),
           ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(250),
-          child: Padding(
-            padding: EdgeInsets.only(top: 50, bottom: 100, left: 50),
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/diagram.gif',
-                  width: 80,
-                  height: 80,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "Add New Category",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.white,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(260),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 100, left: 16),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/diagram.gif',
+                    width: 80,
+                    height: 80,
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text(
+                    "Add New Category",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Hero(
-          tag: "addCategoryHero",
-          child: Material(
-            child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context)
+                    .size
+                    .height, // Minimum height as the screen size
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFormField(
