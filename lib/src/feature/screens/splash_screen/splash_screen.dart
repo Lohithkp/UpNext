@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:up_next/src/constants/color_constants.dart';
 import 'package:up_next/src/constants/routing_constants_names.dart';
 import 'package:up_next/src/util/shared_preference_util.dart';
 
@@ -16,7 +17,7 @@ class SplashScreen extends StatelessWidget {
         // Ensure that the context is still mounted before navigating
         if (context.mounted) {
           final bool isLoggedIn = await SharedPreferenceData().isLoggedIn();
-          if (true) {
+          if (false) {
             context.goNamed(RoutingScreens.landingPage);
           } else {
             context.goNamed(RoutingScreens.loginPage);
@@ -25,15 +26,33 @@ class SplashScreen extends StatelessWidget {
       });
     });
 
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'UpNext',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Positioned(
+            child: Opacity(
+              opacity: 0.8, // Adjust opacity for transparency
+              child: Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Image.asset(
+                  'assets/images/spalsh_screen.png', // Add your background image path
+                  fit: BoxFit.cover,
+                  color: AppColorsConstant.customPrimaryColor,
+                ),
+              ),
+            ),
           ),
-        ),
+          Center(
+            child: Text(
+              'UpNext',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

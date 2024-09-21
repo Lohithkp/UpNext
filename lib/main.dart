@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           path: '/',
           redirect: (context, state) async {
             final bool isLoggedIn = await SharedPreferenceData().isLoggedIn();
-            if (true) {
+            if (false) {
               return '/landingPage';
             } else {
               return '/';
