@@ -29,28 +29,32 @@ class _TypewriterTextState extends State<TypewriterText> {
     _startTyping();
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    super.dispose();
+  }
+
   void _startTyping() {
     _timer = Timer.periodic(widget.speed, (timer) {
       if (_currentLength < widget.text.length) {
-        setState(() {
-          _currentLength++;
-        });
+        if (mounted) {
+          setState(() {
+            _currentLength++;
+          });
+        }
       } else {
         _timer?.cancel();
         Future.delayed(const Duration(seconds: 2), () {
-          setState(() {
-            _currentLength = 0; // Reset the text and start over
-            _startTyping(); // Restart the typing effect after the pause
-          });
+          if (mounted) {
+            setState(() {
+              _currentLength = 0; // Reset the text and start over
+              _startTyping(); // Restart the typing effect after the pause
+            });
+          }
         });
       }
     });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
