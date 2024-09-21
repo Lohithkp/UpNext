@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:up_next/src/constants/routing_constants_names.dart';
+import 'package:up_next/src/feature/screens/landing_page/landing_page.dart';
 import '../../../../main.dart';
 import '../reset_password_page/reset_password_page.dart';
 import '../singn_up_page/sign_up_page.dart';
@@ -108,11 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ResetPasswordPage(),
-                        ),
-                      );
+                      context.pushNamed(RoutingScreens.forgotPassword);
                     },
                     child: const Text('Forgot Password?'),
                   ),
@@ -122,21 +122,34 @@ class _LoginPageState extends State<LoginPage> {
 
               // Login button
               ElevatedButton(
-                onPressed: () {
-                  final email = _emailController.text;
-                  final password = _passwordController.text;
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: email, password: password)
-                      .then((value) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const MyHomePage(title: 'UpNext'),
-                      ),
-                    );
-                  }).onError((error, stackTrace) {
-                    _showErrorSnackBar("User name or password is incorrect");
-                  });
+                onPressed: () async {
+                  // final email = _emailController.text;
+                  // final password = _passwordController.text;
+                  // DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                  //     .collection('users')
+                  //     .doc(email)
+                  //     .get();
+                  // if (userDoc.exists) {
+                  //   UserCredential userCredential =
+                  //       await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  //     email: email,
+                  //     password: password,
+                  //   );
+                  // }
+                  //
+                  // FirebaseAuth.instance
+                  //     .signInWithEmailAndPassword(
+                  //         email: email, password: password)
+                  //     .then((value) {
+                  //   Navigator.of(context).pushReplacement(
+                  //     MaterialPageRoute(
+                  //       builder: (context) => const LandingPage(),
+                  //     ),
+                  //   );
+                  // }).onError((error, stackTrace) {
+                  //   _showErrorSnackBar("User name or password is incorrect");
+                  // });
+                  context.goNamed(RoutingScreens.landingPage);
                 },
                 child: const Text('Login'),
                 style: ElevatedButton.styleFrom(
@@ -152,10 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                   const Text("Don't have an account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpPage()),
-                      );
+                      context.pushNamed(RoutingScreens.signupPage);
                     },
                     child: const Text('Sign up'),
                   ),

@@ -6,6 +6,7 @@ import 'package:up_next/src/model/user_model.dart';
 import '../../../../main.dart';
 import '../../../repository/user_repository.dart';
 import '../../../setup_service_locator/service_locator.dart';
+import '../landing_page/landing_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -171,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   if (isAdded) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => const MyHomePage(title: 'UpNext'),
+                        builder: (context) => const LandingPage(),
                       ),
                     );
                   }
