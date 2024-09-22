@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:up_next/src/constants/color_constants.dart';
 import 'package:up_next/src/constants/routing_constants_names.dart';
+import 'package:up_next/src/feature/screens/add_category_page/add_category_page.dart';
 import 'package:up_next/src/feature/screens/landing_page/landing_page.dart';
 import 'package:up_next/src/feature/screens/login_page/login_page.dart';
 import 'package:up_next/src/feature/screens/reset_password_page/reset_password_page.dart';
 import 'package:up_next/src/feature/screens/singn_up_page/sign_up_page.dart';
 import 'package:up_next/src/feature/screens/splash_screen/splash_screen.dart';
+import 'package:up_next/src/feature/screens/view_task_page/task_view_page.dart';
 import 'package:up_next/src/setup_service_locator/service_locator.dart';
 import 'package:up_next/src/util/shared_preference_util.dart';
 
@@ -60,6 +62,20 @@ class MyApp extends StatelessWidget {
           name: RoutingScreens.landingPage,
           path: '/landingPage',
           builder: (context, state) => const LandingPage(),
+        ),
+        GoRoute(
+          name: RoutingScreens.addCategoryPage,
+          path: '/addCategoryPage',
+          builder: (context, state) => const AddCategoryPage(),
+        ),
+        GoRoute(
+          name: RoutingScreens.taskViewPage,
+          path: '/taskViewPage',
+          builder: (context, state) => TaskViewPage(
+              userProfile: '',
+              numberOfTasks: 1,
+              taskProgress: 1.1,
+              taskList: []),
         ),
       ],
     );

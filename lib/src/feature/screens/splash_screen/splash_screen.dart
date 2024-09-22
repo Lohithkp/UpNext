@@ -28,31 +28,28 @@ class SplashScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Positioned(
-            child: Opacity(
-              opacity: 0.8, // Adjust opacity for transparency
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Image.asset(
-                  'assets/images/spalsh_screen.png', // Add your background image path
-                  fit: BoxFit.cover,
-                  color: AppColorsConstant.customPrimaryColor,
-                ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: Image.asset(
+                'assets/images/todo_1.png',
+                color: AppColorsConstant.customPrimaryColor,
               ),
             ),
-          ),
-          Center(
-            child: Text(
+            const SizedBox(height: 16),
+            const Text(
               'UpNext',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

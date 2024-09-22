@@ -3,4 +3,6 @@ class RoutingScreens {
   static const forgotPassword = "forgotPassword";
   static const signupPage = "signupPage";
   static const landingPage = "landingPage";
+  static const addCategoryPage = "addCategoryPage";
+  static const taskViewPage = "taskViewPage";
 }

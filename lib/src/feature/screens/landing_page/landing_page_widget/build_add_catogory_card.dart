@@ -105,7 +105,7 @@ class _AddCategoryCardState extends State<AddCategoryCard> {
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           "Add Category",
                           style: TextStyle(color: Colors.white),
                         ),

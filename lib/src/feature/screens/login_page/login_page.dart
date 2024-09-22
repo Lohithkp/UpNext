@@ -41,15 +41,15 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           // Background image
-          Opacity(
-            opacity: 0.5, // Adjust opacity for transparency
-            child: Image.asset(
-              'assets/images/bg.png', // Add your background image path
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          ),
+          // Opacity(
+          //   opacity: 0.5, // Adjust opacity for transparency
+          //   child: Image.asset(
+          //     'assets/images/bg.png', // Add your background image path
+          //     fit: BoxFit.cover,
+          //     width: double.infinity,
+          //     height: double.infinity,
+          //   ),
+          // ),
           // Login form
           Padding(
             padding: const EdgeInsets.only(

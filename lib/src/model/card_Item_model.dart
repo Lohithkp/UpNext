@@ -11,6 +11,17 @@ class CardItemModel {
       this.taskCompletion, this.runningText);
 }
 
+class TaskListModel {
+  String taskName;
+  DateTime taskCreationTime;
+  String taskStatus;
+  TaskListModel(
+    this.taskName,
+    this.taskCreationTime,
+    this.taskStatus,
+  );
+}
+
 // var cardsList = [
 //   CardItemModel("Personal", Icons.account_circle, 9, 0.83),
 //   CardItemModel("Work", Icons.work, 12, 0.24),
