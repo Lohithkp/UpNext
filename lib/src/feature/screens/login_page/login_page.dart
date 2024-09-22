@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:up_next/src/constants/color_constants.dart';
 import 'package:up_next/src/constants/routing_constants_names.dart';
 import 'package:up_next/src/feature/screens/landing_page/landing_page.dart';
+import '../../../services/connectivity_service/internet_connectvity_service.dart';
+import '../../../widget/snackbar_widget.dart';
 import '../reset_password_page/reset_password_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,16 +27,6 @@ class _LoginPageState extends State<LoginPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.fixed,
-      ),
-    );
   }
 
   @override
@@ -136,8 +130,33 @@ class _LoginPageState extends State<LoginPage> {
                   // Login button
                   ElevatedButton(
                     onPressed: () async {
+                      bool hasConnection =
+                          await ConnectivityService().hasInternetConnection();
+                      if (hasConnection) {
+                        FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim())
+                            .then((value) {
+                          context.goNamed(RoutingScreens.landingPage);
+                          SnackBarHelper.showSnackBarWidget(
+                              context,
+                              "Login successfully..",
+                              AppColorsConstant.customPrimaryColor);
+                        }).onError((error, stacktrace) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text("Something went wrong,try again")));
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text("No internet Connect, try again")));
+                      }
+
                       // Add your login logic here
-                      context.goNamed(RoutingScreens.landingPage);
                     },
                     child: const Text('Login'),
                     style: ElevatedButton.styleFrom(
@@ -145,8 +164,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // "Don't have an account? Sign up" text
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

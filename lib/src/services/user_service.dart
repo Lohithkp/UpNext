@@ -5,9 +5,9 @@ import '../model/user_model.dart';
 class UserService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<bool> createUser(Users user) async {
+  Future<bool> createUser(Users user, String uId) async {
     try {
-      await _db.collection('users').add(user.toJson());
+      await _db.collection('users').doc(uId).set(user.toJson());
       return true;
     } catch (e) {
       print("Error adding user: $e");

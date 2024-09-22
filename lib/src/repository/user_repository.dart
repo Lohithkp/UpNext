@@ -4,8 +4,8 @@ import '../services/user_service.dart';
 class UserRepository {
   final UserService _firestoreService = UserService();
 
-  Future<bool> addUser(Users user) async {
-    return await _firestoreService.createUser(user);
+  Future<bool> addUser(Users user, String uid) async {
+    return await _firestoreService.createUser(user, uid);
   }
 
   Future<void> updateUser(Users user) async {

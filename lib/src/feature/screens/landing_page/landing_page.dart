@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../model/card_Item_model.dart';
 import '../../../util/animated_util.dart';
 import '../../../util/catogory_list.dart';
+import 'drawer_page/drawer_page.dart';
 import 'landing_page_widget/build_add_catogory_card.dart';
 import '../../../widget/type_writer_widget.dart';
 import '../../../widget/welcome_widget.dart';
@@ -48,7 +49,9 @@ class _LandingPageState extends State<LandingPage>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Drawer(),
+      drawer: const MyDrawer(
+        user: null,
+      ),
       appBar: AppBar(
         backgroundColor: appColors[cardIndex],
         title: const Text(

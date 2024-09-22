@@ -5,4 +5,5 @@ class RoutingScreens {
   static const landingPage = "landingPage";
   static const addCategoryPage = "addCategoryPage";
   static const taskViewPage = "taskViewPage";
+  static const splashScreenPage = "splashScreenPage";
 }

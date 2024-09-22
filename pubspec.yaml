@@ -39,6 +39,7 @@ dependencies:
   go_router: ^6.0.0
   shared_preferences: 2.1.0
   marquee: 2.2.3
+  connectivity_plus: ^4.0.0
 
 dependency_overrides:
   firebase_core: ^2.10.0

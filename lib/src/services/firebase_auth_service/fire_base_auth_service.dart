@@ -2,7 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseAuthService {
-  FirebaseAuthService _auth = FirebaseAuthService();
+  final FirebaseAuth _firebaseAuth;
+  FirebaseAuthService(this._firebaseAuth);
+
+  Stream<User?> Function() get authStateChanges =>
+      _firebaseAuth.authStateChanges;
 
   Future<User?> createUserWithEmailAndPassword(
       String email, String password) async {

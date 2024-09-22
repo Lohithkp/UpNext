@@ -1,11 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:up_next/src/constants/routing_constants_names.dart';
+import 'package:up_next/src/feature/screens/login_page/login_page.dart';
 import 'package:up_next/src/model/user_model.dart';
 
 import '../../../../main.dart';
 import '../../../repository/user_repository.dart';
 import '../../../setup_service_locator/service_locator.dart';
+import '../../../widget/snackbar_widget.dart';
 import '../landing_page/landing_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -154,28 +159,35 @@ class _SignUpPageState extends State<SignUpPage> {
               // Register button
               ElevatedButton(
                 onPressed: () async {
+                  bool isAdded = false;
                   Users user = Users(
                       email: _emailController.text,
                       password: _passwordController.text,
                       mobileNumber: _mobileController.text,
                       fullName: _nameController.text);
-                  bool isAdded = await sl<UserRepository>().addUser(user);
+
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(
                           email: _emailController.text,
                           password: _passwordController.text)
-                      .then((value) {})
-                      .onError((error, stackTrace) {
-                    print(error.toString());
+                      .then((value) async {
+                    isAdded = await sl<UserRepository>()
+                        .addUser(user, value.user!.uid);
+                    SnackBarHelper.showSnackBarWidget(
+                        context, "Registered successfully..", Colors.green);
+                    context.goNamed(RoutingScreens.loginPage);
+                  }).onError((e, stackTrace) {
+                    if (e is FirebaseAuthException) {
+                      if (e.code == 'weak-password') {
+                        SnackBarHelper.showSnackBarWidget(context,
+                            " The provided password is too weak", Colors.red);
+                      } else if (e.code == "email-already-in-use") {
+                        SnackBarHelper.showSnackBarWidget(context,
+                            "The email address is already in use", Colors.red);
+                      }
+                    }
                   });
-
-                  if (isAdded) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const LandingPage(),
-                      ),
-                    );
-                  }
+                  if (isAdded) {}
                 },
                 child: const Text('Register'),
                 style: ElevatedButton.styleFrom(
