@@ -34,6 +34,14 @@ class _TaskViewPageState extends State<TaskViewPage> {
           'In Progress'),
       TaskListModel('Grocery shopping', DateTime.now().add(Duration(days: 2)),
           'Not Started'),
+      TaskListModel('Write blog post', DateTime.now().add(Duration(days: 1)),
+          'In Progress'),
+      TaskListModel('Grocery shopping', DateTime.now().add(Duration(days: 2)),
+          'Not Started'),
+      TaskListModel('Write blog post', DateTime.now().add(Duration(days: 1)),
+          'In Progress'),
+      TaskListModel('Grocery shopping', DateTime.now().add(Duration(days: 2)),
+          'Not Started'),
     ];
   }
 
@@ -175,6 +183,15 @@ class _TaskViewPageState extends State<TaskViewPage> {
           ],
         ),
       ),
+      // Floating Action Button
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Define action when button is pressed, e.g., add new task
+        },
+        backgroundColor: AppColorsConstant.customPrimaryColor,
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
@@ -213,7 +230,14 @@ class TaskItem extends StatelessWidget {
             ),
             title: Text(
               task.taskName,
-              style: const TextStyle(fontSize: 16.0),
+              style: TextStyle(
+                fontSize: 16.0,
+                decoration: task.taskStatus == 'Completed'
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+                color:
+                    task.taskStatus == 'Completed' ? Colors.grey : Colors.black,
+              ),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,

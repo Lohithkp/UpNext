@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../constants/color_constants.dart';
 
 class AddCategoryPage extends StatefulWidget {
@@ -68,119 +67,127 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context)
-                    .size
-                    .height, // Minimum height as the screen size
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Category Name',
-                        labelStyle: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a category name';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        _categoryName = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    DropdownButtonFormField<IconData>(
-                      decoration: const InputDecoration(
-                        labelText: 'Select Icon',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                      ),
-                      items: _icons.map((icon) {
-                        return DropdownMenuItem(
-                          value: icon,
-                          child: Icon(icon),
-                        );
-                      }).toList(),
-                      onChanged: (icon) {
-                        setState(() {
-                          _selectedIcon = icon;
-                        });
-                      },
-                      value: _selectedIcon,
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Category Description',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
-                        ),
-                      ),
-                      maxLines: 3,
-                      onChanged: (value) {
-                        _categoryDescription = value;
-                      },
-                    ),
-                    const SizedBox(
-                        height: 60), // Replace Spacer() with SizedBox
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColorsConstant.customPrimaryColor,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 110.0,
-                              vertical: 18.0), // Increased padding
-                          textStyle:
-                              TextStyle(fontSize: 20.0), // Larger text size
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(30.0), // Curved corners
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight, // Fill the available height
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Category Name',
+                                  labelStyle: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.blue),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a category name';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  _categoryName = value;
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              DropdownButtonFormField<IconData>(
+                                decoration: const InputDecoration(
+                                  labelText: 'Select Icon',
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.blue),
+                                  ),
+                                ),
+                                items: _icons.map((icon) {
+                                  return DropdownMenuItem(
+                                    value: icon,
+                                    child: Icon(icon),
+                                  );
+                                }).toList(),
+                                onChanged: (icon) {
+                                  setState(() {
+                                    _selectedIcon = icon;
+                                  });
+                                },
+                                value: _selectedIcon,
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Category Description',
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.blue),
+                                  ),
+                                ),
+                                maxLines: 3,
+                                onChanged: (value) {
+                                  _categoryDescription = value;
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                        onPressed: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const AddCategoryPage(),
-                          //   ),
-                          // );
-                        },
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  AppColorsConstant.customPrimaryColor,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 110.0,
+                                  vertical: 18.0), // Increased padding
+                              textStyle: TextStyle(fontSize: 20.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState?.validate() ?? false) {
+                                // Submit logic
+                              }
+                            },
+                            child: const Text(
+                              "Submit",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
