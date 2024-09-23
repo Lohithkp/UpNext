@@ -1,15 +1,10 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:up_next/src/constants/color_constants.dart';
 import 'package:up_next/src/constants/routing_constants_names.dart';
-import 'package:up_next/src/feature/screens/landing_page/landing_page.dart';
 import '../../../services/connectivity_service/internet_connectvity_service.dart';
 import '../../../widget/snackbar_widget.dart';
-import '../reset_password_page/reset_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false; // Track loading state
 
   @override
   void dispose() {
@@ -34,17 +30,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
-          // Opacity(
-          //   opacity: 0.5, // Adjust opacity for transparency
-          //   child: Image.asset(
-          //     'assets/images/bg.png', // Add your background image path
-          //     fit: BoxFit.cover,
-          //     width: double.infinity,
-          //     height: double.infinity,
-          //   ),
-          // ),
-          // Login form
           Padding(
             padding: const EdgeInsets.only(
                 top: 120, left: 16, right: 16, bottom: 16),
@@ -127,38 +112,62 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 38),
 
-                  // Login button
+                  // Login button with loading indicator
                   ElevatedButton(
-                    onPressed: () async {
-                      bool hasConnection =
-                          await ConnectivityService().hasInternetConnection();
-                      if (hasConnection) {
-                        FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim())
-                            .then((value) {
-                          context.goNamed(RoutingScreens.landingPage);
-                          SnackBarHelper.showSnackBarWidget(
-                              context,
-                              "Login successfully..",
-                              AppColorsConstant.customPrimaryColor);
-                        }).onError((error, stacktrace) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text("Something went wrong,try again")));
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text("No internet Connect, try again")));
-                      }
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            bool hasConnection = await ConnectivityService()
+                                .hasInternetConnection();
+                            if (hasConnection) {
+                              setState(() {
+                                _isLoading = true; // Start loading
+                              });
 
-                      // Add your login logic here
-                    },
-                    child: const Text('Login'),
+                              try {
+                                await FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                        email: _emailController.text.trim(),
+                                        password:
+                                            _passwordController.text.trim());
+
+                                // Show success message
+                                SnackBarHelper.showSnackBarWidget(
+                                  context,
+                                  "Login successfully.",
+                                  AppColorsConstant.customPrimaryColor,
+                                );
+
+                                // Delay for a couple of seconds before navigating
+                                await Future.delayed(
+                                    const Duration(seconds: 2));
+
+                                // Navigate to the landing page
+                                context.goNamed(RoutingScreens.landingPage);
+                              } catch (error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Something went wrong, try again")),
+                                );
+                              } finally {
+                                setState(() {
+                                  _isLoading = false; // Stop loading
+                                });
+                              }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "No internet connection, try again")),
+                              );
+                            }
+                          },
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                            strokeWidth: 2,
+                          )
+                        : const Text('Login'),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
